@@ -1,0 +1,27 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+export DEB_CFLAGS_MAINT_APPEND = -Wno-sign-compare
+
+DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+
+export SEPOL = /usr/lib/$(DEB_HOST_MULTIARCH)/libsepol.a
+
+%:
+	dh $@ --buildsystem=pybuild --with python3
+
+override_dh_auto_build-arch:
+	dh_auto_build -a -O--buildsystem=pybuild
+	PATH=/usr/lib/$(DEB_HOST_MULTIARCH)/qt5/bin/:$(PATH) python3 setup.py build_qhc
+
+override_dh_auto_test:
+	dh_auto_test || true
+
+override_dh_clean:
+	dh_clean
+	rm -f setools/policyrep/libpolicyrep.c

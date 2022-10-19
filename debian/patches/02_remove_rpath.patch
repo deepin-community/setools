@@ -1,0 +1,19 @@
+From: Laurent Bigonville <bigon@debian.org>
+Date: Wed, 18 Jul 2018 21:31:01 +0200
+Forwarded: not-needed
+Subject: Do not set the rpath for the python modules
+
+---
+ setup.py | 1 -
+ 1 file changed, 1 deletion(-)
+
+--- a/setup.py
++++ b/setup.py
+@@ -104,7 +104,6 @@ cython_annotate = bool(os.environ.get("S
+ ext_py_mods = [Extension('setools.policyrep', ['setools/policyrep.pyx'],
+                          include_dirs=include_dirs,
+                          libraries=['selinux', 'sepol'],
+-                         library_dirs=lib_dirs,
+                          define_macros=macros,
+                          extra_compile_args=['-Wextra',
+                                              '-Waggregate-return',

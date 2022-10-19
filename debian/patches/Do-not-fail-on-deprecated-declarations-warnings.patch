@@ -1,0 +1,19 @@
+From: =?utf-8?q?Christian_G=C3=B6ttsche?= <cgzones@googlemail.com>
+Date: Sun, 7 Feb 2021 16:37:26 +0100
+Forwarded: not-needed
+Subject: Do not fail on deprecated-declarations warnings
+
+---
+ setup.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+--- a/setup.py
++++ b/setup.py
+@@ -118,6 +118,7 @@ ext_py_mods = [Extension('setools.policy
+                                              '-Wstrict-prototypes',
+                                              '-Wunknown-pragmas',
+                                              '-Wwrite-strings',
++                                             '-Wno-deprecated-declarations',
+                                              '-fno-exceptions'])]
+ 
+ installed_data = [('share/man/man1', glob.glob("man/*.1"))]

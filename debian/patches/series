@@ -1,0 +1,3 @@
+02_remove_rpath.patch
+Mention-where-to-find-the-standard-perm_map-for-seinfoflo.patch
+Do-not-fail-on-deprecated-declarations-warnings.patch

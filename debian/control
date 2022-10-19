@@ -1,0 +1,92 @@
+Source: setools
+Priority: optional
+Section: admin
+Maintainer: Debian SELinux maintainers <selinux-devel@lists.alioth.debian.org>
+Uploaders: Laurent Bigonville <bigon@debian.org>
+Standards-Version: 4.6.0
+Build-Depends: checkpolicy (>= 3.1),
+               cython3 (>= 0.29.14),
+               debhelper-compat (= 13),
+               dh-python,
+# libqt5sql5-sqlite is needed to generate the documentation
+               libqt5sql5-sqlite,
+               libselinux1-dev (>= 3.3),
+               libsepol-dev (>= 3.3),
+               python3-all-dev (>= 3.4),
+               python3-networkx (>= 2.2),
+               python3-setuptools,
+               qttools5-dev-tools
+Rules-Requires-Root: no
+Homepage: https://github.com/SELinuxProject/setools/wiki
+Vcs-Git: https://salsa.debian.org/selinux-team/setools.git
+Vcs-Browser: https://salsa.debian.org/selinux-team/setools
+
+Package: setools
+Architecture: linux-any
+Depends: python3-setools (= ${binary:Version}),
+         ${misc:Depends},
+         ${python3:Depends},
+         ${shlibs:Depends}
+Suggests: setools-gui
+Description: tools for Security Enhanced Linux policy analysis
+ Security-enhanced Linux is a patch of the Linux kernel and a number
+ of utilities with enhanced security functionality designed to add
+ mandatory access controls to Linux. These are Tools for analysing
+ security policy on SELinux systems.
+ .
+ This package contains the following CLI tools:
+ .
+  * sechecker: automated SELinux policy analysis tool
+  * sediff: SELinux policy difference tool
+  * sedta: domain transition analysis for SELinux policies
+  * seinfo: SELinux policy information tool
+  * seinfoflow: information flow analysis for SELinux policies
+  * sesearch: SELinux policy query tool
+
+Package: setools-gui
+Architecture: linux-any
+Depends: python3-pyqt5,
+         python3-setools (= ${binary:Version}),
+         python3-setoolsgui (= ${binary:Version}),
+         ${misc:Depends},
+         ${python3:Depends},
+         ${shlibs:Depends}
+Breaks: setools (<< 3.3.8-2~)
+Replaces: setools (<< 3.3.8-2~)
+Description: GUI tools for Security Enhanced Linux policy analysis
+ Security-enhanced Linux is a patch of the Linux kernel and a number
+ of utilities with enhanced security functionality designed to add
+ mandatory access controls to Linux. These are Tools for analysing
+ security policy on SELinux systems.
+ .
+ This package contains the following GUI tool:
+ .
+  * apol: graphical SELinux policy analysis tool
+
+Package: python3-setools
+Section: python
+Architecture: linux-any
+Depends: python3-networkx (>= 2.2),
+         python3-pkg-resources,
+         ${misc:Depends},
+         ${python3:Depends},
+         ${shlibs:Depends}
+Breaks: python3-sepolicy (<< 2.8-3~)
+Description: SETools Python bindings
+ SETools is a collection  tools for analysing security policyon SELinux
+ systems.
+
+Package: python3-setoolsgui
+Section: python
+Architecture: linux-any
+Depends: python3-pkg-resources,
+         python3-pyqt5,
+         python3-setools (= ${binary:Version}),
+         ${misc:Depends},
+         ${python3:Depends},
+         ${shlibs:Depends}
+Description: SETools Python bindings (GUI)
+ SETools is a collection  tools for analysing security policyon SELinux
+ systems.
+ .
+ This package contains the file for the GUI applications like apol.

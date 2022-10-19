@@ -1,0 +1,26 @@
+From: =?utf-8?q?Christian_G=C3=B6ttsche?= <cgzones@googlemail.com>
+Date: Sun, 7 Feb 2021 16:29:49 +0100
+Forwarded: not-needed
+Subject: Mention where to find the standard perm_map for seinfoflow
+
+---
+ man/seinfoflow.1 | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/man/seinfoflow.1 b/man/seinfoflow.1
+index 2e4a261..8cc1aa1 100644
+--- a/man/seinfoflow.1
++++ b/man/seinfoflow.1
+@@ -18,6 +18,12 @@ A single file containing a binary policy. This file is usually named by version
+ If no policy file is provided, \fBseinfoflow\fR will search for the policy running on the current
+ system. If no policy can be found, \fBseinfoflow\fR will print an error message and exit.
+ 
++.SH PERMISSION MAP
++.PP
++A file containing mappings of object permissions for object classes.
++These mappings are the basis on how to compute the infoflow between types.
++On Debian a standard permission map can be found when the package \fBpython3-sepolgen\fR is installed at \fI/var/lib/sepolgen/perm_map\fR.
++
+ .SH OPTIONS
+ .SS Analysis Settings
+ .IP "-p POLICY"
