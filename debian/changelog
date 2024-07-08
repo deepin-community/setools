@@ -1,8 +1,12 @@
-setools (4.4.0-1) UNRELEASED; urgency=medium
+setools (4.4.0-1deepin1) unstable; urgency=medium
 
+  [ Debian SELinux maintainers ]
   * update
 
- -- Debian SELinux maintainers <selinux-devel@lists.alioth.debian.org>  Wed, 25 May 2022 13:34:35 +0800
+  [ Tianyu Chen ]
+  * No source change upload against python 3.12.
+
+ -- Tianyu Chen <sweetyfish@deepin.org>  Mon, 08 Jul 2024 09:57:46 +0200
 
 setools (4.4.0-1) unstable; urgency=medium
 
