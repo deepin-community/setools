@@ -1,20 +1,7 @@
 # Copyright 2015, Tresys Technology, LLC
 #
-# This file is part of SETools.
+# SPDX-License-Identifier: LGPL-2.1-only
 #
-# SETools is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation, either version 2.1 of
-# the License, or (at your option) any later version.
-#
-# SETools is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with SETools.  If not, see
-# <http://www.gnu.org/licenses/>.
 #
 
 import logging
@@ -74,7 +61,7 @@ class MLSRuleQueryTab(AnalysisTab):
         self.errors = set()
         self.orig_palette = self.source.palette()
         self.error_palette = self.source.palette()
-        self.error_palette.setColor(QPalette.Base, Qt.red)
+        self.error_palette.setColor(QPalette.ColorRole.Base, Qt.GlobalColor.red)
         self.clear_source_error()
         self.clear_target_error()
         self.clear_default_error()
@@ -89,7 +76,7 @@ class MLSRuleQueryTab(AnalysisTab):
         self.sort_proxy = QSortFilterProxyModel(self)
         self.sort_proxy.setSourceModel(self.table_results_model)
         self.table_results.setModel(self.sort_proxy)
-        self.table_results.sortByColumn(1, Qt.AscendingOrder)
+        self.table_results.sortByColumn(1, Qt.SortOrder.AscendingOrder)
 
         # set up processing thread
         self.thread = QThread()
@@ -194,7 +181,7 @@ class MLSRuleQueryTab(AnalysisTab):
     def set_tclass(self):
         selected_classes = []
         for index in self.tclass.selectionModel().selectedIndexes():
-            selected_classes.append(self.class_model.data(index, Qt.UserRole))
+            selected_classes.append(self.class_model.data(index, Qt.ItemDataRole.UserRole))
 
         self.query.tclass = selected_classes
 
@@ -277,6 +264,6 @@ class MLSRuleQueryTab(AnalysisTab):
         if not self.busy.wasCanceled():
             self.busy.setLabelText("Moving the raw result to top; GUI may be unresponsive")
             self.busy.repaint()
-            self.raw_results.moveCursor(QTextCursor.Start)
+            self.raw_results.moveCursor(QTextCursor.MoveOperation.Start)
 
         self.busy.reset()

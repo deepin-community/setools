@@ -1,20 +1,7 @@
 # Copyright 2015, Tresys Technology, LLC
 #
-# This file is part of SETools.
+# SPDX-License-Identifier: LGPL-2.1-only
 #
-# SETools is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation, either version 2.1 of
-# the License, or (at your option) any later version.
-#
-# SETools is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with SETools.  If not, see
-# <http://www.gnu.org/licenses/>.
 #
 
 import logging
@@ -88,7 +75,7 @@ class InfoFlowAnalysisTab(AnalysisTab):
 
         # set up error message for missing perm map
         self.error_msg = QMessageBox(self)
-        self.error_msg.setStandardButtons(QMessageBox.Ok)
+        self.error_msg.setStandardButtons(QMessageBox.StandardButton.Ok)
 
         # set up perm map editor
         self.permmap_editor = PermissionMapEditor(self, False)
@@ -106,7 +93,7 @@ class InfoFlowAnalysisTab(AnalysisTab):
         self.errors = set()
         self.orig_palette = self.source.palette()
         self.error_palette = self.source.palette()
-        self.error_palette.setColor(QPalette.Base, Qt.red)
+        self.error_palette.setColor(QPalette.ColorRole.Base, Qt.GlobalColor.red)
         self.clear_source_error()
         self.clear_target_error()
 
@@ -338,7 +325,7 @@ class InfoFlowAnalysisTab(AnalysisTab):
             for rule in current.rules:
                 self.browser_details.appendPlainText(rule)
 
-            self.browser_details.moveCursor(QTextCursor.Start)
+            self.browser_details.moveCursor(QTextCursor.MoveOperation.Start)
 
         if not current.child_populated:
             self.busy.setLabelText("Gathering additional browser details for {0}...".format(
@@ -403,7 +390,7 @@ class InfoFlowAnalysisTab(AnalysisTab):
         if not self.busy.wasCanceled():
             self.busy.setLabelText("Moving the raw result to top; GUI may be unresponsive")
             self.busy.repaint()
-            self.raw_results.moveCursor(QTextCursor.Start)
+            self.raw_results.moveCursor(QTextCursor.MoveOperation.Start)
 
             if self.flows_in.isChecked() or self.flows_out.isChecked():
                 # move to browser tab for flows in/out

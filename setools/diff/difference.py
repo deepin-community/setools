@@ -1,21 +1,7 @@
 # Copyright 2015-2016, Tresys Technology, LLC
 # Copyright 2018, Chris PeBenito <pebenito@ieee.org>
 #
-# This file is part of SETools.
-#
-# SETools is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation, either version 2.1 of
-# the License, or (at your option) any later version.
-#
-# SETools is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with SETools.  If not, see
-# <http://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-2.1-only
 #
 import logging
 from abc import ABC, abstractmethod
@@ -143,8 +129,9 @@ class Wrapper(ABC, Generic[T]):
 
     __slots__ = ("origin", "key")
 
-    def __init__(self, symbol: T) -> None:
-        pass
+    def __init__(self, origin: T, key: int) -> None:
+        self.origin = origin
+        self.key = key
 
     def __repr__(self):
         # pylint: disable=no-member
@@ -169,8 +156,7 @@ class Wrapper(ABC, Generic[T]):
 S = TypeVar("S", bound=PolicySymbol)
 
 
-# Pylint bug: https://github.com/PyCQA/pylint/issues/2822
-class SymbolWrapper(Wrapper[S]):  # pylint: disable=unsubscriptable-object
+class SymbolWrapper(Wrapper[S]):
 
     """
     General wrapper for policy symbols, e.g. types, roles
@@ -183,9 +169,8 @@ class SymbolWrapper(Wrapper[S]):  # pylint: disable=unsubscriptable-object
     __slots__ = ("name",)
 
     def __init__(self, symbol: S) -> None:
-        self.origin = symbol
-        self.name = str(symbol)
-        self.key = hash(self.name)
+        super().__init__(symbol, hash(symbol.name))
+        self.name = symbol.name
 
     def __hash__(self):
         return self.key

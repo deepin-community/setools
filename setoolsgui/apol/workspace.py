@@ -1,20 +1,7 @@
 # Copyright 2016, Tresys Technology, LLC
 #
-# This file is part of SETools.
+# SPDX-License-Identifier: LGPL-2.1-only
 #
-# SETools is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation, either version 2.1 of
-# the License, or (at your option) any later version.
-#
-# SETools is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with SETools.  If not, see
-# <http://www.gnu.org/licenses/>.
 #
 import re
 import logging
@@ -154,7 +141,7 @@ def save_listviews(tab, settings, listviews):
 
         selections = []
         for index in listview.selectedIndexes():
-            item = datamodel.data(index, Qt.DisplayRole)
+            item = datamodel.data(index, Qt.ItemDataRole.DisplayRole)
             selections.append(item)
 
         settings[entry] = selections
@@ -194,10 +181,10 @@ def load_listviews(tab, settings, listviews):
 
         for row in range(datamodel.rowCount()):
             index = datamodel.createIndex(row, 0)
-            item = datamodel.data(index, Qt.DisplayRole)
+            item = datamodel.data(index, Qt.ItemDataRole.DisplayRole)
 
             if item in selections:
-                selectionmodel.select(index, QItemSelectionModel.Select)
+                selectionmodel.select(index, QItemSelectionModel.SelectionFlag.Select)
 
 
 def save_comboboxes(tab, settings, comboboxes):
@@ -212,7 +199,7 @@ def save_comboboxes(tab, settings, comboboxes):
 
     for entry in comboboxes:
         combobox = getattr(tab, entry)
-        settings[entry] = combobox.currentData(Qt.DisplayRole)
+        settings[entry] = combobox.currentData(Qt.ItemDataRole.DisplayRole)
 
 
 def load_comboboxes(tab, settings, comboboxes):

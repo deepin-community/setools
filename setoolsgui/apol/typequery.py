@@ -1,20 +1,7 @@
 # Copyright 2016, Tresys Technology, LLC
 #
-# This file is part of SETools.
+# SPDX-License-Identifier: LGPL-2.1-only
 #
-# SETools is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation, either version 2.1 of
-# the License, or (at your option) any later version.
-#
-# SETools is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with SETools.  If not, see
-# <http://www.gnu.org/licenses/>.
 #
 
 import logging
@@ -75,13 +62,13 @@ class TypeQueryTab(AnalysisTab):
         self.sort_proxy = QSortFilterProxyModel(self)
         self.sort_proxy.setSourceModel(self.table_results_model)
         self.table_results.setModel(self.sort_proxy)
-        self.table_results.sortByColumn(0, Qt.AscendingOrder)
+        self.table_results.sortByColumn(0, Qt.SortOrder.AscendingOrder)
 
         # setup indications of errors on level/range
         self.errors = set()
         self.orig_palette = self.name.palette()
         self.error_palette = self.name.palette()
-        self.error_palette.setColor(QPalette.Base, Qt.red)
+        self.error_palette.setColor(QPalette.ColorRole.Base, Qt.GlobalColor.red)
         self.clear_name_error()
 
         # set up processing thread
@@ -125,7 +112,7 @@ class TypeQueryTab(AnalysisTab):
     def get_detail(self):
         # .ui is set for single item selection.
         index = self.types.selectedIndexes()[0]
-        item = self.type_model.data(index, Qt.UserRole)
+        item = self.type_model.data(index, Qt.ItemDataRole.UserRole)
 
         self.log.debug("Generating detail window for {0}".format(item))
         type_detail(self, item)
@@ -155,7 +142,7 @@ class TypeQueryTab(AnalysisTab):
     def set_attrs(self):
         selected_attrs = []
         for index in self.attrs.selectionModel().selectedIndexes():
-            selected_attrs.append(self.attr_model.data(index, Qt.UserRole))
+            selected_attrs.append(self.attr_model.data(index, Qt.ItemDataRole.UserRole))
 
         self.query.attrs = selected_attrs
 
@@ -226,6 +213,6 @@ class TypeQueryTab(AnalysisTab):
         if not self.busy.wasCanceled():
             self.busy.setLabelText("Moving the raw result to top; GUI may be unresponsive")
             self.busy.repaint()
-            self.raw_results.moveCursor(QTextCursor.Start)
+            self.raw_results.moveCursor(QTextCursor.MoveOperation.Start)
 
         self.busy.reset()

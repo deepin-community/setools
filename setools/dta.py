@@ -1,20 +1,6 @@
 # Copyright 2014-2015, Tresys Technology, LLC
 #
-# This file is part of SETools.
-#
-# SETools is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation, either version 2.1 of
-# the License, or (at your option) any later version.
-#
-# SETools is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with SETools.  If not, see
-# <http://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-2.1-only
 #
 # pylint: disable=unsubscriptable-object
 
@@ -24,8 +10,11 @@ from collections import defaultdict
 from contextlib import suppress
 from typing import DefaultDict, Iterable, List, NamedTuple, Optional, Union
 
-import networkx as nx
-from networkx.exception import NetworkXError, NetworkXNoPath, NodeNotFound
+try:
+    import networkx as nx
+    from networkx.exception import NetworkXError, NetworkXNoPath, NodeNotFound
+except ImportError:
+    logging.getLogger(__name__).debug("NetworkX failed to import.")
 
 from .descriptors import EdgeAttrDict, EdgeAttrList
 from .policyrep import AnyTERule, SELinuxPolicy, TERuletype, Type
@@ -87,8 +76,15 @@ class DomainTransitionAnalysis:
         self.reverse = reverse
         self.rebuildgraph = True
         self.rebuildsubgraph = True
-        self.G = nx.DiGraph()
-        self.subG = self.G.copy()
+
+        try:
+            self.G = nx.DiGraph()
+            self.subG = self.G.copy()
+        except NameError:
+            self.log.critical("NetworkX is not available.  This is "
+                              "requried for Domain Transition Analysis.")
+            self.log.critical("This is typically in the python3-networkx package.")
+            raise
 
     @property
     def reverse(self) -> bool:
@@ -261,7 +257,8 @@ class DomainTransitionAnalysis:
         if self.rebuildgraph:
             self._build_graph()
 
-        return nx.info(self.G)
+        return f"Graph nodes: {nx.number_of_nodes(self.G)}\n" \
+               f"Graph edges: {nx.number_of_edges(self.G)}"
 
     #
     # Internal functions follow

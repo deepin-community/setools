@@ -1,21 +1,8 @@
 # Copyright 2015-2016, Tresys Technology, LLC
 # Copyright 2016, 2019, Chris PeBenito <pebenito@ieee.org>
 #
-# This file is part of SETools.
+# SPDX-License-Identifier: LGPL-2.1-only
 #
-# SETools is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation, either version 2.1 of
-# the License, or (at your option) any later version.
-#
-# SETools is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with SETools.  If not, see
-# <http://www.gnu.org/licenses/>.
 #
 import os
 import shutil
@@ -73,20 +60,20 @@ class ApolMainWindow(SEToolsWidget, QMainWindow):
 
         # set up error message dialog
         self.error_msg = QMessageBox(self)
-        self.error_msg.setStandardButtons(QMessageBox.Ok)
+        self.error_msg.setStandardButtons(QMessageBox.StandardButton.Ok)
 
         # set up permission map editor
         self.permmap_editor = PermissionMapEditor(self, True)
 
         # set up tab name editor
         self.tab_editor = QLineEdit(self.AnalysisTabs)
-        self.tab_editor.setWindowFlags(Qt.Popup)
+        self.tab_editor.setWindowFlags(Qt.WindowType.Popup)
 
         # configure tab bar context menu
         tabBar = self.AnalysisTabs.tabBar()
         tabBar.addAction(self.rename_tab_action)
         tabBar.addAction(self.close_tab_action)
-        tabBar.setContextMenuPolicy(Qt.ActionsContextMenu)
+        tabBar.setContextMenuPolicy(Qt.ContextMenuPolicy.ActionsContextMenu)
 
         # capture INFO and higher Python messages from setools lib for status bar
         handler = LogHandlerToSignal()
@@ -140,9 +127,9 @@ class ApolMainWindow(SEToolsWidget, QMainWindow):
             reply = QMessageBox.question(
                 self, "Continue?",
                 "Loading a policy will close all existing analyses.  Continue?",
-                QMessageBox.Yes | QMessageBox.No)
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
 
-            if reply == QMessageBox.No:
+            if reply == QMessageBox.StandardButton.No:
                 return
 
         filename = QFileDialog.getOpenFileName(self, "Open policy file", ".",
@@ -176,9 +163,9 @@ class ApolMainWindow(SEToolsWidget, QMainWindow):
             reply = QMessageBox.question(
                 self, "Continue?",
                 "Closing a policy will close all existing analyses.  Continue?",
-                QMessageBox.Yes | QMessageBox.No)
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
 
-            if reply == QMessageBox.No:
+            if reply == QMessageBox.StandardButton.No:
                 return
 
         self.AnalysisTabs.clear()
@@ -258,7 +245,7 @@ class ApolMainWindow(SEToolsWidget, QMainWindow):
         counted_name = "{0}: {1}".format(self.tab_counter, tabtitle)
 
         newanalysis = tabclass(self, self._policy, self._permmap)
-        newanalysis.setAttribute(Qt.WA_DeleteOnClose)
+        newanalysis.setAttribute(Qt.WidgetAttribute.WA_DeleteOnClose)
         newanalysis.setObjectName(counted_name)
 
         index = self.AnalysisTabs.addTab(newanalysis, counted_name)
@@ -457,9 +444,9 @@ class ApolMainWindow(SEToolsWidget, QMainWindow):
             reply = QMessageBox.question(
                 self, "Continue?",
                 "Loading a workspace will close all existing analyses.  Continue?",
-                QMessageBox.Yes | QMessageBox.No)
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
 
-            if reply == QMessageBox.No:
+            if reply == QMessageBox.StandardButton.No:
                 return
 
         # 2. try to load the workspace file, if we fail, bail
@@ -646,7 +633,7 @@ class ApolMainWindow(SEToolsWidget, QMainWindow):
 
     def apol_help(self):
         """Open the main help window."""
-        if self.help_process.state() != QProcess.NotRunning:
+        if self.help_process.state() != QProcess.ProcessState.NotRunning:
             return
 
         distro = pkg_resources.get_distribution("setools")
@@ -661,7 +648,7 @@ class ApolMainWindow(SEToolsWidget, QMainWindow):
     @pyqtSlot(QProcess.ProcessError)
     def help_failed(self, error):
         """Starting assistant failed."""
-        if error != QProcess.FailedToStart:
+        if error != QProcess.ProcessError.FailedToStart:
             return
 
         self.log.error("Failed to start Qt assistant {}.".format(self.config.assistant))
@@ -682,9 +669,9 @@ class ApolMainWindow(SEToolsWidget, QMainWindow):
                 "This is typically in the assistant or qt5-assistant package. "
                 "Choose location of Qt Assistant executable?".format(
                     self.config.assistant),
-                QMessageBox.Yes | QMessageBox.No)
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
 
-            if reply == QMessageBox.No:
+            if reply == QMessageBox.StandardButton.No:
                 return
 
             filename = QFileDialog.getOpenFileName(self, "Location of qt-assistant executable",
@@ -702,12 +689,12 @@ class ApolMainWindow(SEToolsWidget, QMainWindow):
     @pyqtSlot(str)
     def set_help(self, location):
         """Set the help window to the specified document."""
-        if self.help_process.state() == QProcess.NotStarted:
+        if self.help_process.state() == QProcess.ProcessState.NotRunning:
             self.apol_help()
             if not self.help_process.waitForStarted():
                 self.log.warning("Timed out waiting for Qt assistant to start.")
                 return
-        elif self.help_process.state() == QProcess.Starting:
+        elif self.help_process.state() == QProcess.ProcessState.Starting:
             if not self.help_process.waitForStarted():
                 self.log.warning("Timed out waiting for Qt assistant to start.")
                 return
