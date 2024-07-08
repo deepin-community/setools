@@ -1,20 +1,7 @@
 # Copyright 2016, Tresys Technology, LLC
 #
-# This file is part of SETools.
+# SPDX-License-Identifier: LGPL-2.1-only
 #
-# SETools is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation, either version 2.1 of
-# the License, or (at your option) any later version.
-#
-# SETools is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with SETools.  If not, see
-# <http://www.gnu.org/licenses/>.
 #
 import logging
 import copy
@@ -99,7 +86,7 @@ class PermissionMapEditor(SEToolsWidget, QDialog):
     def class_selected(self):
         # the .ui is set to 1 selection
         for index in self.classes.selectionModel().selectedIndexes():
-            class_name = self.class_model.data(index, Qt.DisplayRole)
+            class_name = self.class_model.data(index, Qt.ItemDataRole.DisplayRole)
 
         self.log.debug("Setting class to {0}".format(class_name))
 
@@ -112,15 +99,15 @@ class PermissionMapEditor(SEToolsWidget, QDialog):
         for perm in sorted(self.perm_map.perms(class_name)):
             # create permission mapping
             mapping = PermissionMapping(self, perm, self.edit)
-            mapping.setAttribute(Qt.WA_DeleteOnClose)
+            mapping.setAttribute(Qt.WidgetAttribute.WA_DeleteOnClose)
             self.class_toggle.connect(mapping.enabled.setChecked)
             self.perm_mappings.addWidget(mapping)
             self.widgets.append(mapping)
 
             # add horizonal line
             line = QFrame(self)
-            line.setFrameShape(QFrame.HLine)
-            line.setFrameShadow(QFrame.Sunken)
+            line.setFrameShape(QFrame.Shape.HLine)
+            line.setFrameShadow(QFrame.Shadow.Sunken)
             self.perm_mappings.addWidget(line)
             self.widgets.append(line)
 
@@ -192,8 +179,8 @@ class PermissionMapping(SEToolsWidget, QWidget):
         # setup color palettes for direction
         self.orig_palette = self.direction.palette()
         self.error_palette = self.direction.palette()
-        self.error_palette.setColor(QPalette.Button, Qt.red)
-        self.error_palette.setColor(QPalette.ButtonText, Qt.white)
+        self.error_palette.setColor(QPalette.ColorRole.Button, Qt.GlobalColor.red)
+        self.error_palette.setColor(QPalette.ColorRole.ButtonText, Qt.GlobalColor.white)
 
         # setup direction
         self.direction.insertItems(0, index_to_word)

@@ -1,20 +1,7 @@
 # Copyright 2016, Chris PeBenito <pebenito@ieee.org>
 #
-# This file is part of SETools.
+# SPDX-License-Identifier: LGPL-2.1-only
 #
-# SETools is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation, either version 2.1 of
-# the License, or (at your option) any later version.
-#
-# SETools is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with SETools.  If not, see
-# <http://www.gnu.org/licenses/>.
 #
 import logging
 from collections import defaultdict
@@ -47,14 +34,14 @@ class SEToolsListView(QListView):
 
         for row in range(model.rowCount()):
             index = model.createIndex(row, 0)
-            selection_model.select(index, QItemSelectionModel.Toggle)
+            selection_model.select(index, QItemSelectionModel.SelectionFlag.Toggle)
 
-    def selection(self, qt_role=Qt.UserRole):
+    def selection(self, qt_role=Qt.ItemDataRole.UserRole):
         """
         Generator which returns the selection.
 
         Parameter:
-        qt_role     The Qt model role. Default is Qt.UserRole.
+        qt_role     The Qt model role. Default is Qt.ItemDataRole.UserRole.
 
         Yield: tuple(row, data)
         row         The row number of the selection.

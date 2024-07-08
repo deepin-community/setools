@@ -1,20 +1,7 @@
 # Copyright 2016, Tresys Technology, LLC
 #
-# This file is part of SETools.
+# SPDX-License-Identifier: LGPL-2.1-only
 #
-# SETools is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation, either version 2.1 of
-# the License, or (at your option) any later version.
-#
-# SETools is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with SETools.  If not, see
-# <http://www.gnu.org/licenses/>.
 #
 import logging
 
@@ -50,15 +37,15 @@ class DetailsPopup(SEToolsWidget, QDialog):
         self.setWindowTitle(text)
 
     def append(self, text):
-        self.contents.setFontWeight(QFont.Normal)
+        self.contents.setFontWeight(QFont.Weight.Normal)
         self.contents.setFontPointSize(9)
         self.contents.append(text)
 
     def append_header(self, text):
-        self.contents.setFontWeight(QFont.Black)
+        self.contents.setFontWeight(QFont.Weight.Black)
         self.contents.setFontPointSize(11)
         self.contents.append(text)
 
     def show(self):
-        self.contents.moveCursor(QTextCursor.Start)
+        self.contents.moveCursor(QTextCursor.MoveOperation.Start)
         super(DetailsPopup, self).show()

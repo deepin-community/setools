@@ -1,9 +1,0 @@
-?package(setools-gui):needs="X11" section="Applications/System/Security"\
- title="apol" longtitle="SELinux policy analysis tool" \
- description="apol is a graphical tool that allows the \
- user to inspect aspects of a SELinux policy.  The tool\
- allows the user to browse policy components (types,   \
- classes, roles, users, etc.), rules  (TE,  RBAC,  MLS),\
- and file system contexts.  The tool also provides in   \
- depth analyses of domain transitions, information flows,\
- and relabeling permissions." command="/usr/bin/apol"

@@ -1,8 +1,54 @@
-setools (4.4.0-1) UNRELEASED; urgency=medium
+setools (4.4.4-1) unstable; urgency=medium
 
-  * update
+  * New upstream release
 
- -- Debian SELinux maintainers <selinux-devel@lists.alioth.debian.org>  Wed, 25 May 2022 13:34:35 +0800
+ -- Laurent Bigonville <bigon@debian.org>  Sun, 10 Dec 2023 13:48:02 +0100
+
+setools (4.4.3-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Laurent Bigonville <bigon@debian.org>  Sat, 29 Jul 2023 11:54:47 +0200
+
+setools (4.4.2-1) unstable; urgency=medium
+
+  [ Pino Toscano ]
+  * Drop the Debian menu file
+
+  [ Laurent Bigonville ]
+  * New upstream release
+    - Bump libsepol-dev build-dependency to >= 3.5 to match the release
+  * debian/control: Bump Standards-Version to 4.6.2 (no further changes)
+
+ -- Laurent Bigonville <bigon@debian.org>  Tue, 11 Jul 2023 13:23:02 +0200
+
+setools (4.4.1-2) unstable; urgency=medium
+
+  [ Debian Janitor ]
+  * Remove 3 obsolete maintscript entries in 1 files.
+  * Set upstream metadata fields: Bug-Database, Name.
+  * Remove constraints unnecessary since buster:
+    + Build-Depends: Drop versioned constraint on python3-all-dev and
+      python3-networkx.
+    + setools-gui: Drop versioned constraint on setools in Replaces.
+    + setools-gui: Drop versioned constraint on setools in Breaks.
+    + python3-setools: Drop versioned constraint on python3-networkx in Depends.
+    + python3-setools: Drop versioned constraint on python3-sepolicy in Breaks.
+    + Remove 3 maintscript entries from 1 files.
+
+  [ Laurent Bigonville ]
+  * debian/control: Also bump checkpolicy BD to 3.3 for consistency
+  * debian/rules: Force the TZ to UTC when building the doc.
+    That should make the build reproducible
+
+ -- Laurent Bigonville <bigon@debian.org>  Thu, 09 Feb 2023 09:27:11 +0100
+
+setools (4.4.1-1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * New upstream release, code cleanups and bug fixes
+
+ -- Russell Coker <russell@coker.com.au>  Wed, 08 Feb 2023 00:22:30 +1100
 
 setools (4.4.0-1) unstable; urgency=medium
 

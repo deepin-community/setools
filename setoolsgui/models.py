@@ -1,20 +1,7 @@
 # Copyright 2015, Tresys Technology, LLC
 #
-# This file is part of SETools.
+# SPDX-License-Identifier: LGPL-2.1-only
 #
-# SETools is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation, either version 2.1 of
-# the License, or (at your option) any later version.
-#
-# SETools is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with SETools.  If not, see
-# <http://www.gnu.org/licenses/>.
 #
 import logging
 from contextlib import suppress
@@ -32,7 +19,7 @@ def invert_list_selection(selection_model):
     rowcount = model.rowCount()
     for row in range(rowcount):
         index = model.createIndex(row, 0)
-        selection_model.select(index, QItemSelectionModel.Toggle)
+        selection_model.select(index, QItemSelectionModel.SelectionFlag.Toggle)
 
 
 class SEToolsListModel(QAbstractListModel):
@@ -40,8 +27,8 @@ class SEToolsListModel(QAbstractListModel):
     """
     The purpose of this model is to have the
     objects return their string representations
-    for Qt.DisplayRole and return the object
-    for Qt.UserRole.
+    for Qt.ItemDataRole.DisplayRole and return the object
+    for Qt.ItemDataRole.UserRole.
 
     Some Python list-like functions are provided
     for altering the model: append and remove
@@ -94,9 +81,9 @@ class SEToolsListModel(QAbstractListModel):
             row = index.row()
             item = self.item_list[row]
 
-            if role == Qt.DisplayRole:
+            if role == Qt.ItemDataRole.DisplayRole:
                 return str(item)
-            elif role == Qt.UserRole:
+            elif role == Qt.ItemDataRole.UserRole:
                 return item
 
 
@@ -146,7 +133,7 @@ class SEToolsTableModel(QAbstractTableModel):
         self.resultlist = []
 
     def headerData(self, section, orientation, role):
-        if role == Qt.DisplayRole and orientation == Qt.Horizontal:
+        if role == Qt.ItemDataRole.DisplayRole and orientation == Qt.Orientation.Horizontal:
             return self.headers[section]
 
     def rowCount(self, parent=QModelIndex()):

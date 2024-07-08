@@ -1,20 +1,6 @@
 # Copyright 2017-2018, Chris PeBenito <pebenito@ieee.org>
 #
-# This file is part of SETools.
-#
-# SETools is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation, either version 2.1 of
-# the License, or (at your option) any later version.
-#
-# SETools is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with SETools.  If not, see
-# <http://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-2.1-only
 #
 
 from libc.stdint cimport uint8_t, uint16_t, uint32_t, uint64_t
@@ -30,8 +16,10 @@ cdef extern from "<sepol/handle.h>":
     void sepol_handle_destroy(sepol_handle_t *sh)
 
 
+ctypedef void (*msg_callback)(void *varg, sepol_handle_t *handle, const char *fmt, ...)
+
+
 cdef extern from "<sepol/debug.h>":
-    ctypedef void (*msg_callback)(void *varg, sepol_handle_t *handle, const char *fmt, ...)
     void sepol_msg_set_callback(sepol_handle * handle, msg_callback cb, void *cb_arg)
 
 
@@ -295,6 +283,14 @@ cdef extern from "<sepol/policydb/sidtab.h>":
 
 
 cdef extern from "<sepol/policydb/conditional.h>":
+    """
+    #if defined(COND_EXPR_T_RENAME_BOOL_BOOLEAN)
+      #define COND_EXPR_T_RENAME_BOOL_NAME boolean
+    #else
+      #define COND_EXPR_T_RENAME_BOOL_NAME bool
+    #endif
+    """
+
     cdef int COND_EXPR_MAXDEPTH
     cdef int COND_MAX_BOOLS
 
@@ -321,7 +317,7 @@ cdef extern from "<sepol/policydb/conditional.h>":
 
     cdef struct cond_expr:
         uint32_t expr_type
-        uint32_t bool
+        uint32_t boolean "COND_EXPR_T_RENAME_BOOL_NAME"
         cond_expr *next
 
     ctypedef cond_expr cond_expr_t
