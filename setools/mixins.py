@@ -4,9 +4,10 @@
 # SPDX-License-Identifier: LGPL-2.1-only
 #
 # pylint: disable=attribute-defined-outside-init,no-member
-import re
+from dataclasses import astuple
 from logging import Logger
-from typing import Iterable
+from typing import Any
+import warnings
 
 from .descriptors import CriteriaDescriptor, CriteriaSetDescriptor, CriteriaPermissionSetDescriptor
 from .policyrep import Context
@@ -208,3 +209,48 @@ class MatchPermission:
             return obj.perms >= self.perms
         else:
             return match_regex_or_set(obj.perms, self.perms, self.perms_equal, self.perms_regex)
+
+
+class NetworkXGraphEdge:
+
+    """Mixin enabling use in NetworkX functions."""
+
+    source: Any
+    target: Any
+
+    def __getitem__(self, key):
+        # This is implemented so this object can be used in NetworkX
+        # functions that operate on (source, target) tuples
+        if isinstance(key, slice):
+            return [self._index_to_item(i) for i in range(* key.indices(2))]
+        else:
+            return self._index_to_item(key)
+
+    def _index_to_item(self, index: int):
+        """Return source or target based on index."""
+        if index == 0:
+            return self.source
+        elif index == 1:
+            return self.target
+        else:
+            raise IndexError(f"Invalid index (NetworkXGraphEdge only has 2 items): {index}")
+
+
+class TupleCompat:
+
+    """Mixin for named tuple backwards compatibility for dataclasses."""
+
+    def __getitem__(self, key):
+        warnings.warn("Named tuple returns are deprecated, replaced with dataclasses.",
+                      DeprecationWarning)
+        return astuple(self)[key]
+
+    def __iter__(self):
+        warnings.warn("Named tuple returns are deprecated, replaced with dataclasses.",
+                      DeprecationWarning)
+        return iter(astuple(self))
+
+    def __len__(self):
+        warnings.warn("Named tuple returns are deprecated, replaced with dataclasses.",
+                      DeprecationWarning)
+        return len(astuple(self))

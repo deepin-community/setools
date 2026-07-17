@@ -17,11 +17,11 @@ export SEPOL = /usr/lib/$(DEB_HOST_MULTIARCH)/libsepol.a
 
 override_dh_auto_build-arch:
 	dh_auto_build -a -O--buildsystem=pybuild
-	TZ=UTC PATH=/usr/lib/$(DEB_HOST_MULTIARCH)/qt5/bin/:$(PATH) python3 setup.py build_qhc
+	TZ=UTC PATH=/usr/lib/$(DEB_HOST_MULTIARCH)/qt5/bin/:$(PATH) python3 setup.py build
 
 override_dh_auto_test:
 	dh_auto_test || true
 
 override_dh_clean:
 	dh_clean
-	rm -f setools/policyrep/libpolicyrep.c
+	rm -f setools/policyrep.c setools/policyrep/libpolicyrep.c

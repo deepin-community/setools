@@ -1,3 +1,22 @@
+setools (4.5.1-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * debian/control: Drop unnecessary build-dep python3-pdm-pep517.
+    (Closes: #1086217)
+  * debian/control: Use the correct pep517 build-dep pybuild-plugin-pyproject.
+
+ -- Boyuan Yang <byang@debian.org>  Thu, 31 Oct 2024 15:16:07 -0400
+
+setools (4.5.1-1) unstable; urgency=medium
+
+  * New upstream version
+  * Add build-depends on python3-pdm-pep517 and change dependencies to 3.7 SE
+    Linux libraries
+  * Remove setools/policyrep.c in clean rule
+  * Made setools-gui depend on python3-pyqt6 and recommend qt6-wayland
+
+ -- Russell Coker <russell@coker.com.au>  Mon, 14 Oct 2024 17:14:43 +1100
+
 setools (4.4.4-1) unstable; urgency=medium
 
   * New upstream release
