@@ -4,14 +4,15 @@ Section: admin
 Maintainer: Debian SELinux maintainers <selinux-devel@lists.alioth.debian.org>
 Uploaders: Laurent Bigonville <bigon@debian.org>
 Standards-Version: 4.6.2
-Build-Depends: checkpolicy (>= 3.5),
+Build-Depends: checkpolicy (>= 3.7),
                cython3 (>= 0.29.14),
                debhelper-compat (= 13),
                dh-python,
 # libqt5sql5-sqlite is needed to generate the documentation
                libqt5sql5-sqlite,
-               libselinux1-dev (>= 3.5),
-               libsepol-dev (>= 3.5),
+               libselinux1-dev (>= 3.7),
+               libsepol-dev (>= 3.7),
+               pybuild-plugin-pyproject,
                python3-all-dev,
                python3-networkx,
                python3-setuptools,
@@ -45,12 +46,13 @@ Description: tools for Security Enhanced Linux policy analysis
 
 Package: setools-gui
 Architecture: linux-any
-Depends: python3-pyqt5,
+Depends: python3-pyqt6,
          python3-setools (= ${binary:Version}),
          python3-setoolsgui (= ${binary:Version}),
          ${misc:Depends},
          ${python3:Depends},
          ${shlibs:Depends}
+Recommends: qt6-wayland
 Description: GUI tools for Security Enhanced Linux policy analysis
  Security-enhanced Linux is a patch of the Linux kernel and a number
  of utilities with enhanced security functionality designed to add
